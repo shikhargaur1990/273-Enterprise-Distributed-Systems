@@ -7,7 +7,7 @@ host_list = ['us-east-1  [54.152.63.252]', 'us-east-2 [18.216.0.253]', 'us-west-
              'eu-west-1  [34.240.0.253]', 'eu-central-1  [18.194.0.252]', 'eu-west-2  [35.176.0.252]',
              'eu-west-3  [35.180.0.253]', 'ap-northeast-1  [13.112.63.251]', 'ap-northeast-2  [13.124.63.251]',
              'ap-southeast-1  [13.228.0.251]', 'ap-southeast-2  [13.54.63.252]', 'ap-south-1  [13.126.0.252]']
-result=[]
+result = {}
 
 for i in range(len(host_list)):
 
@@ -24,10 +24,12 @@ for i in range(len(host_list)):
     regex = "mdev = [0-9]*[\.]?[0-9]*\/([0-9]*[\.]?[0-9]*)\/"
     match = re.findall(regex, s)
     if match:
-        result.append(round(float(match[0])))
-result.sort()
+        val = round(float(match[0]))
+        result[host_list[i]]=val
 
+s = [(k, result[k]) for k in sorted(result, key=result.get)]
+i=1
 # print the result
-
-for i in range(len(host_list)):
-    print(str(i+1) + ". " + host_list[i] + " - " + str(result[i]) + " ms")
+for k, v in s:
+        print(str(i),". ",k," - ",v,"ms")
+        i=i+1
